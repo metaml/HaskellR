@@ -3,6 +3,8 @@ os:
   - linux
   - osx
 
+sudo: required
+
 # XXX Doesn't work on OS X VM's currently (Nov 2015).
 cache:
   directories:
@@ -15,10 +17,12 @@ before_install:
   - mkdir -p ~/.local/bin
   # Passing -k to work around https://github.com/travis-ci/travis-ci/issues/4709.
   - travis_retry curl -Lk https://www.stackage.org/stack/$TRAVIS_OS_NAME-x86_64 | tar xz --strip-components=1 -C ~/.local/bin
+  - curl -k https://nixos.org/nix/install | sh
+  - . $HOME/.nix-profile/etc/profile.d/nix.sh
 
 install:
   - stack --nix --no-terminal -j2 build --only-snapshot --prefetch --test --bench
 
 script:
   # XXX no tests for now since it times out.
-  - stack --no-terminal -j2 build --pedantic
+  - stack --nix --no-terminal -j2 build --pedantic
