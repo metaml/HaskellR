@@ -1,5 +1,6 @@
-language: c
+language: generic
 os:
+  - linux
   - osx
 
 # XXX Doesn't work on OS X VM's currently (Nov 2015).
@@ -13,15 +14,10 @@ env:
 before_install:
   - mkdir -p ~/.local/bin
   # Passing -k to work around https://github.com/travis-ci/travis-ci/issues/4709.
-  - travis_retry curl -Lk https://www.stackage.org/stack/osx-x86_64 | tar xz --strip-components=1 -C ~/.local/bin
+  - travis_retry curl -Lk https://www.stackage.org/stack/$TRAVIS_OS_NAME-x86_64 | tar xz --strip-components=1 -C ~/.local/bin
 
 install:
-  - brew update
-  - brew tap homebrew/science
-  - brew install r zeromq python
-  - pip install ipython
-  - stack setup
-  - stack --no-terminal -j2 build --only-snapshot --prefetch --test --bench
+  - stack --nix --no-terminal -j2 build --only-snapshot --prefetch --test --bench
 
 script:
   # XXX no tests for now since it times out.
