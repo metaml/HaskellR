@@ -20,5 +20,5 @@ test:
   override:
   # XXX --docker-persist flag to workaround CircleCI bug: cannot remove
   # containers (Nov 2015).
-  - case $CIRCLE_NODE_INDEX in 0) stack --no-terminal --docker --docker-persist build --pedantic --test --bench --haddock --no-haddock-deps ;; 1) stack --no-terminal --docker --docker-persist --resolver lts-2 build --pedantic --test --bench --haddock --no-haddock-deps ;; esac:
+  - case $CIRCLE_NODE_INDEX in 0) stack --no-terminal --docker --docker-persist build --pedantic --test --bench --haddock --no-haddock-deps ;; 1) stack --no-terminal --docker --docker-persist --resolver lts-2.22 build --pedantic --test --bench --haddock --no-haddock-deps ;; esac:
       parallel: true

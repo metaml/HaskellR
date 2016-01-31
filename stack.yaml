@@ -8,7 +8,7 @@ resolver: lts-4.1
 docker:
   # Disabled by default. Use --docker on command line to enable.
   enable: false
-  repo: tweag/haskellr:latest
+  repo: tweag/haskellr
 
 nix:
     enable: false
