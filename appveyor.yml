@@ -37,8 +37,6 @@ install:
     $env:R_LIBS_USER = 'c:\RLibrary'
     mkdir $env:R_LIBS_USER
 
-    Write-Host "Launching stack"
-    stack --no-terminal setup | out-null
-
 build_script:
+  - stack --no-terminal setup > nul
   - stack --no-terminal build --test --bench inline-r H
