@@ -38,7 +38,7 @@ install:
     mkdir $env:R_LIBS_USER
 
     Write-Host "Launching stack"
-    stack --no-terminal setup
+    stack --no-terminal setup | out-null
     stack --no-terminal build --test --bench --only-snapshot --prefetch
 
 build_script:
