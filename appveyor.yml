@@ -1,5 +1,5 @@
 version: "{build}"
-#cache: C:\Users\appveyor\AppData\Roaming\stack
+cache: C:\Users\appveyor\AppData\Roaming\stack
 
 build:
   verbosity: normal
@@ -39,11 +39,6 @@ install:
 
     Write-Host "Launching stack"
     stack --no-terminal setup | out-null
-    stack --no-terminal build --test --bench --only-snapshot --prefetch H
 
 build_script:
-  - stack --no-terminal build --pedantic H
-
-test_script:
-  - stack --no-terminal test --pedantic inline-r H
-  - stack --no-terminal bench --pedantic inline-r
+  - stack --no-terminal build --test --bench inline-r H
