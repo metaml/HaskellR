@@ -39,4 +39,4 @@ install:
 
 build_script:
   - stack --no-terminal setup > nul
-  - stack --no-terminal build --test --bench inline-r H
+  - stack --no-terminal build inline-r H
