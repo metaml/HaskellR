@@ -20,7 +20,7 @@ install:
     $ImageFullPath = Get-ChildItem "..\R.vhd" | % { $_.FullName }
     $ImageSize = (Get-Item $ImageFullPath).length
     echo "$ImageFullPath [$ImageSize bytes]"
-    
+
     Write-Host "Mounting R.vhd"
     $RDrive = [string](Mount-DiskImage -ImagePath $ImageFullPath -Passthru | Get-DiskImage | Get-Disk | Get-Partition | Get-Volume).DriveLetter + ":"
     # Assert that R was mounted properly
@@ -32,20 +32,18 @@ install:
     Write-Host "Setting PATH"
     $env:PATH = $RDrive + '\Rtools\bin;' + $RDrive + '\Rtools\MinGW\bin;' + $RDrive + '\Rtools\gcc-4.6.3\bin;' + $RDrive + '\R\bin\i386;' + 'C:\stack;' + $env:PATH
     $env:PATH.Split(";")
-    
+
     Write-Host "Setting R_LIBS_USER"
     $env:R_LIBS_USER = 'c:\RLibrary'
     mkdir $env:R_LIBS_USER
 
     Write-Host "Launching stack"
-    stack setup --verbose --no-terminal
-    stack test --only-snapshot --prefetch --no-terminal
-    stack bench --only-snapshot --prefetch --no-terminal
-    stack haddock --only-snapshot --prefetch --no-terminal
+    stack --no-terminal setup
+    stack --no-terminal build --test --bench --only-snapshot --prefetch
 
 build_script:
-  - stack build --haddock --pedantic --no-terminal
+  - stack --no-terminal build --pedantic
 
 test_script:
-  - stack test --pedantic --no-terminal
-  - stack bench --pedantic --no-terminal
+  - stack --no-terminal test --pedantic
+  - stack --no-terminal bench --pedantic
